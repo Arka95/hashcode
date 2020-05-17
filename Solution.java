@@ -18,9 +18,9 @@ public class Solution{
     }
 
 
-    public static void code_jam_io()
+    public static void code_jam_io(String input_file, String  output_file)
     {
-      String filename = "test.txt";
+      String filename = input_file;
       String output="";
       Scanner sc = new Scanner(filename); // or System.in
       int no_tests = sc.nextInt();
@@ -31,10 +31,10 @@ public class Solution{
         int k= sc.nextInt();
         for(int j=0;j<n;j++)
           arr[j]=sc.nextInt();
-        //output+="Case #"+(i+1)+": "+do_something(arr, k)+"\n";
+        output+="Case #"+(i+1)+": "+do_something(arr)+"\n";
       }
       sc.close();
-      write_to_file(output, filename);
+      write_to_file(output, output_file);
     }
 
     public static void kickstart_io()
