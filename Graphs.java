@@ -1,4 +1,8 @@
 import java.util.Scanner;
+
+import jdk.nashorn.internal.objects.MapIterator;
+import sun.awt.image.ImageWatched.Link;
+
 import java.io.IOException;
 import java.io.File;
 import java.util.*;
@@ -50,6 +54,20 @@ public class Graphs {
                 dfs(graph, i, visited, result);
         }
         return result;
+    }
+    static LinkedList[] reorder_graph(int new_indexes[], LinkedList[] graph)
+    {
+
+        int n = graph.length;
+        LinkedList[] sortedGraph = new LinkedList[n];
+        HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
+        for(int i=0;i<n;i++)
+            hm.put(new_indexes[i], i);
+        for (Map.Entry<Integer, Integer> set : hm.entrySet()) 
+        {
+            //do something
+        }
+        return sortedGraph;
     }
 
     static void dfs(LinkedList[] graph, Integer i, boolean[] visited, Integer result[])
