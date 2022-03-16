@@ -9,6 +9,9 @@ Simple soln: HashMap<String, LinkedList<Long>> with linked list (O(1) insertion 
 What if it is unsorted ? Think of better ways 
 Best Soln: ( Hashmap with TreeMap<Long (timestamp), Integer(frequency)> tree O(logN) insertion and O(LogN) retrieval)
 (TreeMap uses self balancing RB trees. Whenever there are duplicate timestamp recs, increase Frequency of that)
+
+
+Follow up questions: This is obviously not threadsafe. How can you make it threadsafe while writes ? (synchronize during Treeset add )
 */
 
 
