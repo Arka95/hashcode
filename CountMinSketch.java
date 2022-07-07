@@ -2,16 +2,16 @@ import java.util.*;
 
 class CountMinSketch {
 
-    /*CountMinSketch(CMS) from https://www.youtube.com/watch?v=kx-XDoPjoHw . This is a probabilistic data-structure 
+    /*CountMinSketch(CMS) from https://www.youtube.com/watch?v=kx-XDoPjoHw . This is a probabilistic data-structure
     that is a matrix of #hashesFuntion X width (maxModulo is the width) . this can store the approximate frequency
-    of a string in limited memory. 
-    
+    of a string in limited memory.
+
     So when do we use it? usually you would store string frequency mapping in a map where every stirng will be mapped
      to its frequency. But Hashmaps will grow bigger and bigger with a larger number of keys , which in real world
      can be infinite. But this CMS can keep that memory constant to |H|x|W|, independent of number of strings. check the
      above link for more info
      */
-    
+
     // width(W) of the table , usually in 1000s
     int width;
     // a list of number to modulo with. note that the hashValue cannot surpass the width (H)
@@ -29,8 +29,9 @@ class CountMinSketch {
         Random rand = new Random();
         int i=0;
         while( i<hashFunctions.length) {
-            hashFunctions[i++] = rand.nextInt() % width;
+            hashFunctions[i++] = Math.abs(rand.nextInt()) % width;
         }
+        System.out.println("Generated hashes :"+ Arrays.toString(hashFunctions));
     }
 
 
@@ -38,7 +39,7 @@ class CountMinSketch {
      int insert(String s){
         int i=0, minimumOfAllHashes= Integer.MAX_VALUE;
         for(int hash: hashFunctions) {
-            int columnForHash = s.hashCode() % hash;
+            int columnForHash = Math.abs(s.hashCode()) % hash;
             cms[i][columnForHash]++;
             minimumOfAllHashes = Math.min(minimumOfAllHashes, cms[i][columnForHash]);
         }
@@ -50,7 +51,7 @@ class CountMinSketch {
      int getCount(String s){
          int i=0, minimumOfAllHashes= Integer.MAX_VALUE;
          for(int hash: hashFunctions) {
-             int columnForHash = s.hashCode() % hash;
+             int columnForHash = Math.abs(s.hashCode()) % hash;
              minimumOfAllHashes = Math.min(minimumOfAllHashes, cms[i][columnForHash]);
          }
          return minimumOfAllHashes;
@@ -58,7 +59,7 @@ class CountMinSketch {
 
 
     public static void main(String[] args) {
-        String[] dataset= {"arka","arka","arka","arka","algorithm","instagram","faang","gta", "gta", "travel","travel"};
+        String[] dataset= {"arka","arka","arka","arka","algorithm","instagram","faang","gta", "gta","what","travel","travel"};
         CountMinSketch cms =new CountMinSketch(3,50);
         cms.generateHashFunctions();
         for(String word: dataset){
