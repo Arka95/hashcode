@@ -11,11 +11,9 @@ collectively (m+n)>(i+j) thus making left diagonal (\) the longest depth in the 
 We want to base our discovery times based on the longest depth left diagonal BUT this is an isse
 consider this case :(m+n)>(i+j) but then may be i>m . Assuming both lines meet at pt C
 THE discovery time for C as calcuated by us will be m. But in reality it is i
+
+OH OH OH , lets not forget about the diamond problem <3 ^_^ LIFE IS HARD BRO
 */
-
-
-
-
 
 public class TaskExecutor {
 
