@@ -103,7 +103,6 @@ class Main {
         ws.access("lll.com");
         Thread.sleep(1000);
         System.out.println(ws.getHitsInLastXMinutes("abcd.com",1)); //expected 2
-    }
 
         ws.access("xyz.com");
         ws.access("fhk.com");

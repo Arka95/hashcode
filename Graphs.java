@@ -1,15 +1,20 @@
 import java.util.Scanner;
-
-import jdk.nashorn.internal.objects.MapIterator;
-import sun.awt.image.ImageWatched.Link;
-
 import java.io.IOException;
 import java.io.File;
 import java.util.*;
 
 public class Graphs {
 
-    static LinkedList[] createGraph(String filename) throws IOException{
+    static void addToAdjacenctList(int src,int dest, LinkedList[] graph){
+        if (graph[src]==null)
+            graph[src] = new LinkedList<Integer>();
+        graph[src].add(dest);
+    }
+
+    static LinkedList[] createGraph(String filename, boolean inverted) throws IOException{
+        /* Input: a file with #nodes and #edges followed by an Edgelist
+           Creates a Graph from a Edgelist(in file) in the most optimal way possible
+        *  returns: Array of linkedLists indicating an Adjacency List */
         File file= new File(filename);
         Scanner sc = new Scanner(file);
         int no_verts = sc.nextInt();
@@ -17,15 +22,18 @@ public class Graphs {
         LinkedList[] graph = new LinkedList[no_verts];
         for (int i=0;i<no_edges;i++){
             int src = sc.nextInt();
-            if (graph[src]==null)
-                graph[src] = new LinkedList<Integer>();
-            graph[src].add(sc.nextInt());
+            int dest = sc.nextInt();
+            if (!inverted)
+                addToAdjacenctList(src,dest, graph);
+            else
+                addToAdjacenctList(dest,src, graph);
         }
         sc.close();
         return graph;
     }
 
     static void printGraph(LinkedList[] graph){
+        /* just a  utility function */
         System.out.println("\n-----------------");
         int n = graph.length;
         for (int i=0;i<n ;i++){
@@ -44,6 +52,9 @@ public class Graphs {
 
     static int counter = 0; 
     static Integer[] topSort(LinkedList[] graph){
+        // this topsort will give you a schedule for visitinng nodes in ascending order of time
+        // note that this is a serial scdhedule and not parallel
+        // we'd need more that topsort to identify parallelizable tasks
         int n = graph.length;
         boolean[] visited = new boolean[n];
         Integer[] result = new Integer[n];
@@ -57,6 +68,7 @@ public class Graphs {
     }
     static LinkedList[] reorder_graph(int new_indexes[], LinkedList[] graph)
     {
+        // reorders the graph based on topsort. This is a basic traversal based topsort.
 
         int n = graph.length;
         LinkedList[] sortedGraph = new LinkedList[n];
@@ -84,12 +96,13 @@ public class Graphs {
             if(visited[current]==false)
                 dfs(graph, current, visited, result);
         }
+        // add to list when completely visited only
         result[counter--]=i;
     }
 
     public static void main(String args[]) throws Exception
     {
-        LinkedList[] graph = createGraph("graph.txt");
+        LinkedList[] graph = createGraph("graph.txt",false);
         printGraph(graph);
         Integer[] sorted = topSort(graph);
         System.out.println(Arrays.toString(sorted));
